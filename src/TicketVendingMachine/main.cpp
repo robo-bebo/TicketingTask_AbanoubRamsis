@@ -1,3 +1,5 @@
+#include "CommonTypes/CTicketData.hpp"
+#include "CommonTypes/CTicketRequest.hpp"
 #include "Mqtt/MqttClient.hpp"
 
 #include <chrono>
@@ -18,6 +20,9 @@ int main()
                               { std::cout << "[" << topic << "] " << payload << std::endl; });
 
     client.subscribe("demo/topic");
+
+    TicketData    data;
+    TicketRequest request;
 
     while(true)
     {

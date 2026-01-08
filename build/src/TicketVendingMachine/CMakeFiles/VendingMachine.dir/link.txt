@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/VendingMachine.dir/main.cpp.o ../Mqtt/CMakeFiles/mqttClient.dir/MqttClient.cpp.o -o VendingMachine  -lpthread -lssl -lcrypto -lmosquitto 
