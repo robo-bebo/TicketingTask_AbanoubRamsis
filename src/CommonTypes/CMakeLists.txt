@@ -2,7 +2,7 @@
 file(GLOB SOURCES CONFIGURE_DEPENDS "*.cpp")
 
 # create a target for the object files generated from this dir
-add_executable(CommonTypes ${SOURCES})
+add_library(CommonTypes OBJECT ${SOURCES})
 
 
 target_include_directories(CommonTypes INTERFACE

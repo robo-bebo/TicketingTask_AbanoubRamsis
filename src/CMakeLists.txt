@@ -1,2 +1,4 @@
 add_subdirectory(TicketVendingMachine)
 add_subdirectory(Mqtt)
+add_subdirectory(CommonTypes)
+add_subdirectory(InterprocessCommunication)

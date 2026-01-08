@@ -9,8 +9,8 @@
 class TicketRequest
 {
   public:
-    int32_t ValidityDays;
+    int32_t validityDays;
     int8_t  lineNumber;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TicketRequest, ValidityDays, lineNumber)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TicketRequest, validityDays, lineNumber)

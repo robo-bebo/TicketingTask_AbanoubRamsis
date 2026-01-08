@@ -1,6 +1,4 @@
-#include "CommonTypes/CTicketData.hpp"
-#include "CommonTypes/CTicketRequest.hpp"
-#include "Mqtt/MqttClient.hpp"
+#include "TicketVendingMachine/SaleRequestHandler.hpp"
 
 #include <chrono>
 #include <iostream>
@@ -8,21 +6,8 @@
 
 int main()
 {
-    MqttClient client("VebdingMachine");
-
-    if(!client.connect("localhost", 1883))
-    {
-        std::cerr << "Failed to connect to MQTT broker" << std::endl;
-        return -1;
-    }
-
-    client.setMessageCallback([](std::string topic, std::string payload)
-                              { std::cout << "[" << topic << "] " << payload << std::endl; });
-
-    client.subscribe("demo/topic");
-
-    TicketData    data;
-    TicketRequest request;
+    SaleRequestHandler handler;
+    handler.startHandler();
 
     while(true)
     {

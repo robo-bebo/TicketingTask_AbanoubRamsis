@@ -4,7 +4,8 @@
 std::string TicketData::toBase64() const
 {
     nlohmann::json json;
-    from_json(json, *this);
+    TicketData     DataCopy(*this);
+    from_json(json, DataCopy);
     std::string jsonString = json.dump();
     std::string base64Str;
     base64Str.resize(boost::beast::detail::base64::encoded_size(jsonString.length()));
