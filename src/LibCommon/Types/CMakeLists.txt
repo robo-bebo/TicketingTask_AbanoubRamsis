@@ -2,12 +2,10 @@
 file(GLOB SOURCES CONFIGURE_DEPENDS "*.cpp")
 
 # create a target for the object files generated from this dir
-add_executable(VendingMachine ${SOURCES})
+add_library(Types OBJECT ${SOURCES})
 
 
-target_include_directories(VendingMachine PRIVATE
-    ${PROJECT_INCLUDE_DIR}/TicketVendingMachine
+target_include_directories(Types PRIVATE
     ${PROJECT_INCLUDE_DIR}/LibCommon
+    ${PROJECT_INCLUDE_DIR}/LibCommon/Types
 )
-
-target_link_libraries(VendingMachine PRIVATE thirdParty LibCommon)

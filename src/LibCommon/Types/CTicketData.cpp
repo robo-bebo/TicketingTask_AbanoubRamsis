@@ -1,4 +1,4 @@
-#include "CommonTypes/CTicketData.hpp"
+#include "CTicketData.hpp"
 
 std::string TicketData::toBase64() const
 {

@@ -2,12 +2,12 @@
 file(GLOB SOURCES CONFIGURE_DEPENDS "*.cpp")
 
 # create a target for the object files generated from this dir
-add_executable(VendingMachine ${SOURCES})
+add_executable(GateSimulator ${SOURCES})
 
 
-target_include_directories(VendingMachine PRIVATE
-    ${PROJECT_INCLUDE_DIR}/TicketVendingMachine
+target_include_directories(GateSimulator PRIVATE
+    ${PROJECT_INCLUDE_DIR}/GateSimulator
     ${PROJECT_INCLUDE_DIR}/LibCommon
 )
 
-target_link_libraries(VendingMachine PRIVATE thirdParty LibCommon)
+target_link_libraries(GateSimulator PRIVATE thirdParty LibCommon)

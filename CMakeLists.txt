@@ -7,15 +7,14 @@ project(TicketingSystem VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#this library is used to hold all common includes and libraries.
-add_library(common INTERFACE)
-#append here any dir need to be included in more that one subdir
-target_include_directories(common INTERFACE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    #${CMAKE_CURRENT_SOURCE_DIR}/thirdParty
-)
+set(PROJECT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+#this library is used to hold all thirdParty libraries.
+add_library(thirdParty INTERFACE)
+
 #append here any lib that needs to be linked to more than one target
-target_link_libraries(common INTERFACE
+target_link_libraries(thirdParty INTERFACE
     pthread
     ssl
     crypto
@@ -26,10 +25,10 @@ target_link_libraries(common INTERFACE
 option(BUILD_APP "Build the main application" OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(src)
 
 
 
 
- 

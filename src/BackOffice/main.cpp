@@ -1,4 +1,4 @@
-#include "BackOffice/CBackOfficeServer.hpp"
+#include "CBackOfficeServer.hpp"
 
 #include <chrono>
 #include <iostream>

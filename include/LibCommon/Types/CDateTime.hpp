@@ -42,6 +42,14 @@ class DateTime
         return DateTime(std::chrono::system_clock::from_time_t(time_c));
     }
 
-    // Access underlying time_point (optional)
-    std::chrono::system_clock::time_point getTimePoint() const { return tp; }
+    DateTime addSecs(int seconds) const { return DateTime(tp + std::chrono::seconds(seconds)); }
+    DateTime addMins(int minutes) const { return DateTime(tp + std::chrono::minutes(minutes)); }
+    DateTime addDays(int days) const { return DateTime(tp + std::chrono::hours(24 * days)); }
+
+    bool operator==(const DateTime& other) const { return tp == other.tp; }
+    bool operator!=(const DateTime& other) const { return tp != other.tp; }
+    bool operator<(const DateTime& other) const { return tp < other.tp; }
+    bool operator<=(const DateTime& other) const { return tp <= other.tp; }
+    bool operator>(const DateTime& other) const { return tp > other.tp; }
+    bool operator>=(const DateTime& other) const { return tp >= other.tp; }
 };

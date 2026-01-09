@@ -1,4 +1,4 @@
-#include "InterprocessCommunication/CHttpClient.hpp"
+#include "CHttpClient.hpp"
 
 namespace http = boost::beast::http;
 using tcp      = boost::asio::ip::tcp;
@@ -46,6 +46,7 @@ std::string HttpClient::post(const std::string& target, const std::string& body,
     req.set(http::field::host, m_host);
     req.set(http::field::user_agent, "BeastClient");
     req.set(http::field::content_type, contentType);
+    req.keep_alive(false);
     req.body() = body;
     req.prepare_payload();
 
@@ -54,6 +55,10 @@ std::string HttpClient::post(const std::string& target, const std::string& body,
     boost::beast::flat_buffer         buffer;
     http::response<http::string_body> res;
     http::read(m_socket, buffer, res);
+
+    m_socket.shutdown(tcp::socket::shutdown_both);
+    m_socket.close();
+    m_connected = false;
 
     return res.body();
 }

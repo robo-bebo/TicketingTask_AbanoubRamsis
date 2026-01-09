@@ -9,6 +9,7 @@ class BackOfficeServer
 
   private:
     static Response TicketSaleRequestHandler(const Request& req);
+    static Response TicketValidationRequestHandler(const Request& req);
 
-    HttpServer            m_httpServer;
+    HttpServer m_httpServer;
 };

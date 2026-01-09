@@ -1,4 +1,4 @@
-#include "InterprocessCommunication/CHttpServer.hpp"
+#include "CHttpServer.hpp"
 
 using tcp = boost::asio::ip::tcp;
 
@@ -51,14 +51,13 @@ void HttpServer::handleSession(tcp::socket socket)
     http::read(socket, buffer, req);
 
     Response res{http::status::not_found, req.version()};
-    res.set(http::field::server, "BeastServer");
-
-    auto it = m_routes.find(std::to_string((int)req.method()) + std::string(req.target()));
+    auto     it = m_routes.find(std::to_string((int)req.method()) + std::string(req.target()));
     if(it != m_routes.end())
     {
         res = it->second(req);
     }
-
-    res.keep_alive(req.keep_alive());
+    res.set(http::field::server, "BeastServer");
+    res.keep_alive(false);
+    res.prepare_payload();
     http::write(socket, res);
 }

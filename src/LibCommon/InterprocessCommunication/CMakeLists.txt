@@ -5,8 +5,6 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "*.cpp")
 add_library(InterprocessCommunication OBJECT ${SOURCES})
 
 
-target_include_directories(InterprocessCommunication INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/InterprocessCommunication
+target_include_directories(InterprocessCommunication PRIVATE
+    ${PROJECT_INCLUDE_DIR}/LibCommon/InterprocessCommunication
 )
-
-target_link_libraries(InterprocessCommunication PRIVATE common)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CommonTypes/CDateTime.hpp"
+#include "CDateTime.hpp"
 #include "NlohmannJson/json.hpp"
 
 #include <boost/beast/core/detail/base64.hpp>

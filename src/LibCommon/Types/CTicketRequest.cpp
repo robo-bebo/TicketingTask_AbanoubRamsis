@@ -1,4 +1,4 @@
-#include "CommonTypes/CTicketRequest.hpp"
+#include "CTicketRequest.hpp"
 
 
 std::string TicketRequest::toString() const

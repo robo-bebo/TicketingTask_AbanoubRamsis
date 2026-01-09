@@ -1,6 +1,6 @@
 #include "BackOfficeInterface/CBackOfficeClientFactory.hpp"
 #include "BackOfficeInterface/CBackOfficeProxy.hpp"
-#include "CSaleRequestHandler.hpp"
+#include "CValidationRequestHandler.hpp"
 
 #include <chrono>
 #include <iostream>
@@ -11,7 +11,7 @@ int main()
     std::unique_ptr<IBackOfficeClient> backOfficeClient = BackOfficeClientFactory::createHttpClient();
     std::unique_ptr<BackOfficeProxy> backOfficeProxy
         = std::make_unique<BackOfficeProxy>(std::move(backOfficeClient));
-    SaleRequestHandler handler(std::move(backOfficeProxy));
+    ValidationRequestHandler handler(std::move(backOfficeProxy));
     handler.startHandler();
 
     while(true)

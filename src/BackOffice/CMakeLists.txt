@@ -5,8 +5,9 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "*.cpp")
 add_executable(BackOffice ${SOURCES})
 
 
-target_include_directories(BackOffice INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/BackOffice
+target_include_directories(BackOffice PRIVATE
+    ${PROJECT_INCLUDE_DIR}/BackOffice
+    ${PROJECT_INCLUDE_DIR}/LibCommon
 )
 
-target_link_libraries(BackOffice PRIVATE common CommonTypes InterprocessCommunication)
+target_link_libraries(BackOffice PRIVATE thirdParty LibCommon)

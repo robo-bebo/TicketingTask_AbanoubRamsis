@@ -5,5 +5,5 @@
 namespace mqttTopics
 {
     const std::string TICKET_SALE_REQUEST       = "request/ticket";
-    const std::string TICKET_Validation_REQUEST = "validate/ticket";
+    const std::string TICKET_VALIDATION_REQUEST = "validate/ticket";
 } // namespace mqttTopics

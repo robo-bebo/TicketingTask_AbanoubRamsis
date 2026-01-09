@@ -1,5 +1,4 @@
 add_subdirectory(TicketVendingMachine)
 add_subdirectory(BackOffice)
-add_subdirectory(Mqtt)
-add_subdirectory(CommonTypes)
-add_subdirectory(InterprocessCommunication)
+add_subdirectory(GateSimulator)
+add_subdirectory(LibCommon)
