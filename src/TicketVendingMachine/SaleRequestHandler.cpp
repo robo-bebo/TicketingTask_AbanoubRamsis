@@ -1,8 +1,9 @@
 #include "TicketVendingMachine/SaleRequestHandler.hpp"
 
-#include "Mqtt/MqttTopics.hpp"
-#include "CommonTypes/CTicketRequest.hpp"
 #include "CommonTypes/CTicketData.hpp"
+#include "CommonTypes/CTicketRequest.hpp"
+#include "Mqtt/MqttTopics.hpp"
+#include "TicketVendingMachine/CBackOfficeProxy.hpp"
 
 #include <chrono>
 #include <iostream>
@@ -32,4 +33,19 @@ void SaleRequestHandler::onRequestReceived(std::string topic, std::string payloa
     std::cout << "Parsed Ticket Request - ValidityDays: " << static_cast<int>(request.validityDays)
               << ", lineNumber: " << static_cast<int>(request.lineNumber) << std::endl;
 
+    BackOfficeProxy backOfficeProxy;
+
+    try
+    {
+        const std::string base64TicketData = backOfficeProxy.requestTicket(request);
+        const TicketData  ticketData       = TicketData::fromBase64(base64TicketData);
+        std::cout << "Received Ticket Data - TicketID: " << ticketData.ticketID
+                  << ", ValidityDays: " << ticketData.ValidityDays
+                  << ", lineNumber: " << static_cast<int>(ticketData.lineNumber)
+                  << ", creationDate: " << ticketData.creationDate.toString() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error requesting ticket from BackOffice: " << e.what() << std::endl;
+    }
 }

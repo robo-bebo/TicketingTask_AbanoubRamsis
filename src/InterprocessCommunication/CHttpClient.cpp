@@ -11,7 +11,9 @@ HttpClient::HttpClient(std::string host, uint16_t port)
 void HttpClient::connect()
 {
     if(m_connected)
+    {
         return;
+    }
 
     auto results = m_resolver.resolve(m_host, std::to_string(m_port));
     boost::asio::connect(m_socket, results.begin(), results.end());

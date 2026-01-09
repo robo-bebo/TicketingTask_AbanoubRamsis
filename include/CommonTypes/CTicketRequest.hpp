@@ -11,6 +11,9 @@ class TicketRequest
   public:
     int32_t validityDays;
     int8_t  lineNumber;
+
+    std::string          toString() const;
+    static TicketRequest fromString(const std::string& str);
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TicketRequest, validityDays, lineNumber)

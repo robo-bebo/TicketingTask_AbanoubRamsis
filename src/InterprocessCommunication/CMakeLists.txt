@@ -6,7 +6,7 @@ add_library(InterprocessCommunication OBJECT ${SOURCES})
 
 
 target_include_directories(InterprocessCommunication INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/InterprocessCommunication
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/InterprocessCommunication
 )
 
 target_link_libraries(InterprocessCommunication PRIVATE common)

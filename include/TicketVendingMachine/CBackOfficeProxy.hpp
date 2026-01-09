@@ -1,12 +1,16 @@
 #pragma once
 
 #include "CommonTypes/CTicketRequest.hpp"
+#include "InterprocessCommunication/CHttpClient.hpp"
 
 class BackOfficeProxy
 {
   public:
-    BackOfficeProxy()          = default;
+    BackOfficeProxy();
     virtual ~BackOfficeProxy() = default;
 
-    virtual void requestTicket(const TicketRequest& requestJson) = 0;
+    std::string requestTicket(const TicketRequest& request);
+
+  private:
+    HttpClient m_httpClient;
 };

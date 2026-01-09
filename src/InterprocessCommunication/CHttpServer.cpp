@@ -55,7 +55,9 @@ void HttpServer::handleSession(tcp::socket socket)
 
     auto it = m_routes.find(std::to_string((int)req.method()) + std::string(req.target()));
     if(it != m_routes.end())
+    {
         res = it->second(req);
+    }
 
     res.keep_alive(req.keep_alive());
     http::write(socket, res);
