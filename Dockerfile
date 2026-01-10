@@ -24,6 +24,18 @@ RUN apt-get update && \
     libpugixml-dev \
     && rm -rf /var/lib/apt/lists/*
 
+
+ENV GIT_SSL_NO_VERIFY=1
+
+RUN git clone https://github.com/google/googletest.git /opt/googletest
+
+RUN mkdir -p /opt/googletest/build && cd /opt/googletest/build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    make install
+
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
 # Create app directory
 WORKDIR /app
 

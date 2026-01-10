@@ -1,25 +1,20 @@
 #pragma once
-#include <boost/asio.hpp>
-#include <boost/beast.hpp>
-#include <functional>
+#include "IHttpServer.hpp"
+
 #include <thread>
 #include <unordered_map>
 
-namespace http = boost::beast::http;
-using Request  = http::request<http::string_body>;
-using Response = http::response<http::string_body>;
-
-class HttpServer
+class HttpServer : public IHttpServer
 {
   public:
-    using Handler = std::function<Response(const Request&)>;
+    using Handler = IHttpServer::Handler;
 
     HttpServer(uint16_t port);
     ~HttpServer();
 
-    void addRoute(http::verb method, std::string path, Handler h);
-    void start();
-    void stop();
+    void addRoute(http::verb method, std::string path, Handler h) override;
+    void start() override;
+    void stop() override;
 
   private:
     void acceptLoop();

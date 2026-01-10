@@ -10,6 +10,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+set(TEST_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/src)
+set(TEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/include)
+
 #this library is used to hold all thirdParty libraries.
 add_library(thirdParty INTERFACE)
 
@@ -29,6 +32,8 @@ option(BUILD_TESTS "Build unit tests" OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(src)
+
+#add_subdirectory(tests)
 
 
 

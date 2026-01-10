@@ -1,24 +1,22 @@
 #pragma once
 
-#include "Database/IReportDatabase.hpp"
-#include "Database/ITicketStockDatabase.hpp"
-#include "InterprocessCommunication/CHttpServer.hpp"
+#include "IRequestHandler.hpp"
+#include "InterprocessCommunication/IHttpServer.hpp"
 
 #include <memory>
 
 class BackOfficeServer
 {
   public:
-    BackOfficeServer(std::unique_ptr<ITicketStockDatabase> ticketDatabase,
-                     std::unique_ptr<IReportDatabase>      reportDatabase);
+    BackOfficeServer(std::unique_ptr<IHttpServer>     httpServer,
+                     std::unique_ptr<IRequestHandler> requestHandler);
 
   private:
-    Response TicketSaleRequestHandler(const Request& req);
-    Response TicketValidationRequestHandler(const Request& req);
-    Response postTransactionReportHandler(const Request& req);
-    Response getTransactionReportHandler(const Request& req);
+    Response onTicketSaleRequestHandler(const Request& req);
+    Response onTicketValidationRequestHandler(const Request& req);
+    Response onPostTransactionReportHandler(const Request& req);
+    Response onGetTransactionReportHandler(const Request& req);
 
-    HttpServer                            m_httpServer;
-    std::unique_ptr<ITicketStockDatabase> m_ticketDatabase;
-    std::unique_ptr<IReportDatabase>      m_reportDatabase;
+    std::unique_ptr<IHttpServer>     m_httpServer;
+    std::unique_ptr<IRequestHandler> m_requestHandler;
 };
