@@ -1,4 +1,5 @@
 #include "CBackOfficeServer.hpp"
+#include "Database/CDatabaseFactory.hpp"
 
 #include <chrono>
 #include <iostream>
@@ -6,7 +7,7 @@
 
 int main()
 {
-    BackOfficeServer server;
+    BackOfficeServer server(CDatabaseFactory::createJsonFileDatabase("ticket_database.json"));
 
     while(true)
     {

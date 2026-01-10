@@ -1,15 +1,20 @@
 #pragma once
 
+#include "Database/ITicketStockDatabase.hpp"
 #include "InterprocessCommunication/CHttpServer.hpp"
+
+#include <memory>
 
 class BackOfficeServer
 {
   public:
-    BackOfficeServer();
+    BackOfficeServer(std::unique_ptr<ITicketStockDatabase> ticketDatabase);
 
   private:
-    static Response TicketSaleRequestHandler(const Request& req);
-    static Response TicketValidationRequestHandler(const Request& req);
+    Response TicketSaleRequestHandler(const Request& req);
+    Response TicketValidationRequestHandler(const Request& req);
+    Response TransactionReportHandler(const Request& req);
 
-    HttpServer m_httpServer;
+    HttpServer                            m_httpServer;
+    std::unique_ptr<ITicketStockDatabase> m_ticketDatabase;
 };

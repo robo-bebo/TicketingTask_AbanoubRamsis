@@ -9,8 +9,11 @@
 #include <thread>
 
 
-ValidationRequestHandler::ValidationRequestHandler(std::unique_ptr<BackOfficeProxy> backOfficeClient)
-    : m_backOfficeProxy(std::move(backOfficeClient)), m_mqttClient("GateSimulator")
+ValidationRequestHandler::ValidationRequestHandler(std::shared_ptr<BackOfficeProxy> backOfficeClient,
+                                                   std::unique_ptr<TransactionReporter> transactionReporter)
+    : m_backOfficeProxy(std::move(backOfficeClient)),
+      m_transactionReporter(std::move(transactionReporter)),
+      m_mqttClient("GateSimulator")
 {
 }
 
@@ -33,8 +36,11 @@ void ValidationRequestHandler::startHandler()
 void ValidationRequestHandler::onRequestReceived(std::string topic, std::string payload)
 {
     std::cout << "Received request on topic: " << topic << " with payload: " << payload << std::endl;
-
     const TicketData ticketData = TicketData::fromBase64(payload);
+
+    SingleTransaction transaction;
+    transaction.ticket         = payload;
+    transaction.validationDate = DateTime();
 
     try
     {
@@ -43,6 +49,7 @@ void ValidationRequestHandler::onRequestReceived(std::string topic, std::string 
         if(response.valid)
         {
             std::cout << "Open Gate" << std::endl;
+            transaction.isValid = true;
         }
         else
         {
@@ -61,6 +68,9 @@ void ValidationRequestHandler::onRequestReceived(std::string topic, std::string 
         else
         {
             std::cout << "Open Gate" << std::endl;
+            transaction.isValid = true;
         }
     }
+
+    m_transactionReporter->updateReport(transaction);
 }

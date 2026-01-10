@@ -10,4 +10,6 @@ target_include_directories(BackOffice PRIVATE
     ${PROJECT_INCLUDE_DIR}/LibCommon
 )
 
-target_link_libraries(BackOffice PRIVATE thirdParty LibCommon)
+target_link_libraries(BackOffice PRIVATE thirdParty LibCommon Database)
+
+add_subdirectory(Database)

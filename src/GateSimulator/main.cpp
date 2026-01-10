@@ -9,9 +9,14 @@
 int main()
 {
     std::unique_ptr<IBackOfficeClient> backOfficeClient = BackOfficeClientFactory::createHttpClient();
-    std::unique_ptr<BackOfficeProxy> backOfficeProxy
-        = std::make_unique<BackOfficeProxy>(std::move(backOfficeClient));
-    ValidationRequestHandler handler(std::move(backOfficeProxy));
+
+    std::shared_ptr<BackOfficeProxy> backOfficeProxy
+        = std::make_shared<BackOfficeProxy>(std::move(backOfficeClient));
+
+    std::unique_ptr<TransactionReporter> transactionReporter
+        = std::make_unique<TransactionReporter>(backOfficeProxy);
+
+    ValidationRequestHandler handler(std::move(backOfficeProxy), std::move(transactionReporter));
     handler.startHandler();
 
     while(true)

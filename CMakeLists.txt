@@ -19,6 +19,7 @@ target_link_libraries(thirdParty INTERFACE
     ssl
     crypto
     mosquitto
+    pugixml
 )
 
 #User options

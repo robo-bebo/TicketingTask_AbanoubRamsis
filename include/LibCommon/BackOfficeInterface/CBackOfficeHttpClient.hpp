@@ -9,8 +9,9 @@ class CBackOfficeHttpClient : public IBackOfficeClient
     CBackOfficeHttpClient();
     virtual ~CBackOfficeHttpClient() = default;
 
-    std::string requestTicket(const TicketRequest& request) override;
-    std::string validateTicket(const TicketData& request) override;
+    std::string requestTicket(const std::string& request) override;
+    std::string validateTicket(const std::string& request) override;
+    std::string sendTransactionReport(const std::string& xmlReport) override;
 
   private:
     HttpClient m_httpClient;
