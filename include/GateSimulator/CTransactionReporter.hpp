@@ -13,6 +13,7 @@ class TransactionReporter
     void updateReport(const SingleTransaction& report);
 
   private:
+    void                             getTransactionReportOnStartup();
     std::shared_ptr<BackOfficeProxy> m_backOfficeProxy;
     TransactionsReport               m_report;
 };

@@ -2,7 +2,10 @@
 
 
 #include "CJsonFileDatabaseHandler.hpp"
+#include "CReportDatabase.hpp"
 #include "CTicketStockDatabase.hpp"
+
+#include <memory>
 
 class CDatabaseFactory
 {
@@ -11,5 +14,10 @@ class CDatabaseFactory
     {
         auto dbHandler = std::make_unique<JsonFileDatabaseHandler>(filePath);
         return std::make_unique<TicketStockDatabase>(std::move(dbHandler));
+    }
+
+    static inline std::unique_ptr<IReportDatabase> createReportDatabase(const std::string& filePath)
+    {
+        return std::make_unique<ReportDatabase>(filePath);
     }
 };

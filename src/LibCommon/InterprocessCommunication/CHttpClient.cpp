@@ -27,12 +27,16 @@ std::string HttpClient::get(const std::string& target)
     http::request<http::string_body> req{http::verb::get, target, 11};
     req.set(http::field::host, m_host);
     req.set(http::field::user_agent, "BeastClient");
+    req.keep_alive(false);
 
     http::write(m_socket, req);
 
     boost::beast::flat_buffer         buffer;
     http::response<http::string_body> res;
     http::read(m_socket, buffer, res);
+    m_socket.shutdown(tcp::socket::shutdown_both);
+    m_socket.close();
+    m_connected = false;
 
     return res.body();
 }

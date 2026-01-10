@@ -21,7 +21,7 @@ RUN apt-get update && \
     xvfb \
     x11-utils \
     libgtk-3-dev \
-    pugixml-dev \
+    libpugixml-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Create app directory

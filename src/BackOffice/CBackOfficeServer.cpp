@@ -8,15 +8,20 @@
 
 #include <iostream>
 
-BackOfficeServer::BackOfficeServer(std::unique_ptr<ITicketStockDatabase> ticketDatabase)
-    : m_httpServer(8080), m_ticketDatabase(std::move(ticketDatabase))
+BackOfficeServer::BackOfficeServer(std::unique_ptr<ITicketStockDatabase> ticketDatabase,
+                                   std::unique_ptr<IReportDatabase>      reportDatabase)
+    : m_httpServer(8080),
+      m_ticketDatabase(std::move(ticketDatabase)),
+      m_reportDatabase(std::move(reportDatabase))
 {
     m_httpServer.addRoute(http::verb::post, httpTargets::REQUEST_TICKET, [this](const Request& req)
                           { return this->TicketSaleRequestHandler(req); });
     m_httpServer.addRoute(http::verb::post, httpTargets::VALIDATE_TICKET, [this](const Request& req)
                           { return this->TicketValidationRequestHandler(req); });
-    m_httpServer.addRoute(http::verb::post, httpTargets::TRANSACTION_REPORT,
-                          [this](const Request& req) { return this->TransactionReportHandler(req); });
+    m_httpServer.addRoute(http::verb::post, httpTargets::TRANSACTION_REPORT, [this](const Request& req)
+                          { return this->postTransactionReportHandler(req); });
+    m_httpServer.addRoute(http::verb::get, httpTargets::TRANSACTION_REPORT, [this](const Request& req)
+                          { return this->getTransactionReportHandler(req); });
     m_httpServer.start();
 }
 
@@ -74,17 +79,33 @@ Response BackOfficeServer::TicketValidationRequestHandler(const Request& req)
     return res;
 }
 
-Response BackOfficeServer::TransactionReportHandler(const Request& req)
+Response BackOfficeServer::postTransactionReportHandler(const Request& req)
 {
     std::string payload = req.body();
     std::cout << "Received Transaction Report with payload: " << payload << std::endl;
 
-    // Here you would typically process/store the transaction report.
-    // For this example, we just acknowledge receipt.
+    TransactionsReport report;
+    report = TransactionsReport::fromXMLString(payload);
+    m_reportDatabase->storeReport(report);
 
     Response res{http::status::ok, req.version()};
     res.set(http::field::content_type, "text/plain");
     res.body() = "Transaction report received";
+    res.prepare_payload();
+    return res;
+}
+
+Response BackOfficeServer::getTransactionReportHandler(const Request& req)
+{
+    std::cout << "Received Get Transaction Report Request" << std::endl;
+
+    TransactionsReport report = m_reportDatabase->getReport();
+    std::string        xmlStr = report.toXMLString();
+    std::cout << __func__ << " Sending XML Report: " << xmlStr << std::endl;
+
+    Response res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "application/xml");
+    res.body() = xmlStr;
     res.prepare_payload();
     return res;
 }

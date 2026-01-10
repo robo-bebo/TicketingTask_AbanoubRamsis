@@ -7,7 +7,8 @@
 
 int main()
 {
-    BackOfficeServer server(CDatabaseFactory::createJsonFileDatabase("ticket_database.json"));
+    BackOfficeServer server(CDatabaseFactory::createJsonFileDatabase("ticket_database.json"),
+                            CDatabaseFactory::createReportDatabase("transaction_report.xml"));
 
     while(true)
     {

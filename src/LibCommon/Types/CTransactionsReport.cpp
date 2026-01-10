@@ -21,43 +21,42 @@ std::string TransactionsReport::toXMLString() const
     auto transactions = root.append_child("LastTransactions");
     for(const auto& tx : lastTransactions)
     {
-        auto ticketNode                             = transactions.append_child("Ticket");
+        auto ticketNode                             = transactions.append_child("Transaction");
         ticketNode.append_child("Ticket").text()    = tx.ticket.c_str();
         ticketNode.append_child("Status").text()    = tx.isValid ? "Valid" : "Invalid";
         ticketNode.append_child("Timestamp").text() = tx.validationDate.toString().c_str();
     }
 
     std::ostringstream oss;
-    doc.save(oss, "  "); // pretty print with 2 spaces
+    doc.save(oss, "  ");
     return oss.str();
 }
 
-bool TransactionsReport::fromXMLString(const std::string& xml)
+TransactionsReport TransactionsReport::fromXMLString(const std::string& xml)
 {
+    TransactionsReport report;
     pugi::xml_document doc;
     if(!doc.load_string(xml.c_str()))
-        return false;
+        return report;
 
     auto root = doc.child("TicketReport");
     if(!root)
-        return false;
+        return report;
+    report.gateID = root.attribute("GateID").as_uint();
 
-    gateID = root.attribute("GateID").as_uint();
+    auto summary   = root.child("Summary");
+    report.total   = summary.child("Total").text().as_uint();
+    report.valid   = summary.child("Valid").text().as_uint();
+    report.invalid = summary.child("Invalid").text().as_uint();
 
-    auto summary = root.child("Summary");
-    total        = summary.child("Total").text().as_uint();
-    valid        = summary.child("Valid").text().as_uint();
-    invalid      = summary.child("Invalid").text().as_uint();
-
-    lastTransactions.clear();
-    for(auto node : root.child("LastTransactions").children("Ticket"))
+    for(auto node : root.child("LastTransactions").children("Transaction"))
     {
         SingleTransaction tx;
-        tx.ticket  = node.child("Ticket").text().as_string();
-        tx.isValid = std::string(node.child("Status").text().as_string()) == "Valid";
-        tx.validationDate.fromString(node.child("Timestamp").text().as_string());
-        lastTransactions.push_back(tx);
+        tx.ticket         = node.child("Ticket").text().as_string();
+        tx.isValid        = std::string(node.child("Status").text().as_string()) == "Valid";
+        tx.validationDate = DateTime::fromString(node.child("Timestamp").text().as_string());
+        report.lastTransactions.push_back(tx);
     }
 
-    return true;
+    return report;
 }

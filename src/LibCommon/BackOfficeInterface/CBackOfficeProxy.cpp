@@ -24,11 +24,17 @@ std::string BackOfficeProxy::validateTicket(const TicketData& request)
                                   request.toBase64());
 }
 
-void BackOfficeProxy::sendTransactionReport(const TransactionsReport& xmlReport)
+void BackOfficeProxy::postTransactionReport(const TransactionsReport& xmlReport)
 {
     sendRequestWithRetries([this](const std::string& req)
                            { return m_backOfficeClient->sendTransactionReport(req); },
                            xmlReport.toXMLString());
+}
+
+std::string BackOfficeProxy::getTransactionReport()
+{
+    return sendRequestWithRetries([this](const std::string& req)
+                                  { return m_backOfficeClient->getTransactionReport(); }, "");
 }
 
 std::string BackOfficeProxy::sendRequestWithRetries(

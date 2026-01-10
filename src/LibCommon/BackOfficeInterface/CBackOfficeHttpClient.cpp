@@ -18,3 +18,8 @@ std::string CBackOfficeHttpClient::sendTransactionReport(const std::string& xmlR
 {
     return m_httpClient.post(httpTargets::TRANSACTION_REPORT, xmlReport, "application/xml");
 }
+
+std::string CBackOfficeHttpClient::getTransactionReport()
+{
+    return m_httpClient.get(httpTargets::TRANSACTION_REPORT);
+}

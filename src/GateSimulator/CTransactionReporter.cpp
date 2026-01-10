@@ -3,6 +3,7 @@
 TransactionReporter::TransactionReporter(std::shared_ptr<BackOfficeProxy> backOfficeProxy)
     : m_backOfficeProxy(std::move(backOfficeProxy))
 {
+    getTransactionReportOnStartup();
 }
 
 void TransactionReporter::updateReport(const SingleTransaction& report)
@@ -27,5 +28,12 @@ void TransactionReporter::updateReport(const SingleTransaction& report)
 
     // Send updated report to BackOffice
     const std::string xmlReport = m_report.toXMLString();
-    m_backOfficeProxy->sendTransactionReport(m_report);
+    m_backOfficeProxy->postTransactionReport(m_report);
+}
+
+void TransactionReporter::getTransactionReportOnStartup()
+{
+    const std::string xmlReport = m_backOfficeProxy->getTransactionReport();
+    std::cout << __func__ << " Received XML Report: " << xmlReport << std::endl;
+    m_report = TransactionsReport::fromXMLString(xmlReport);
 }

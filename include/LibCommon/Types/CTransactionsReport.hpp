@@ -16,6 +16,6 @@ class TransactionsReport
     std::vector<SingleTransaction> lastTransactions;
 
 
-    std::string toXMLString() const;
-    bool        fromXMLString(const std::string& xmlStr);
+    std::string               toXMLString() const;
+    static TransactionsReport fromXMLString(const std::string& xmlStr);
 };

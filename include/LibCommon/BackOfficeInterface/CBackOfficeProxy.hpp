@@ -21,7 +21,8 @@ class BackOfficeProxy
 
     std::string requestTicket(const TicketRequest& request);
     std::string validateTicket(const TicketData& request);
-    void        sendTransactionReport(const TransactionsReport& xmlReport);
+    void        postTransactionReport(const TransactionsReport& xmlReport);
+    std::string getTransactionReport();
 
   private:
     std::unique_ptr<IBackOfficeClient> m_backOfficeClient;

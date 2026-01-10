@@ -12,6 +12,7 @@ class CBackOfficeHttpClient : public IBackOfficeClient
     std::string requestTicket(const std::string& request) override;
     std::string validateTicket(const std::string& request) override;
     std::string sendTransactionReport(const std::string& xmlReport) override;
+    std::string getTransactionReport() override;
 
   private:
     HttpClient m_httpClient;
